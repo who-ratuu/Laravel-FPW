@@ -30,3 +30,8 @@ use App\Http\Controllers\DashboardController;
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
+
+// Tugas Praktikum 2 No 2
+Route::get('/about', function () {
+    return 'Halaman About';
+});
