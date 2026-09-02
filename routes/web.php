@@ -7,28 +7,6 @@ Route::get('/', function () {
 });
 
 //Pertemuan 2
-Route::get('/about', function () {
-    return 'Halaman About';
-});
-
-Route::get('/user/{id}', function ($id) {
-    return 'User: ' . $id;
-});
-
-Route::get('/user/{name?}', function ($name = 'Tamu') {
-    return $name;
-});
-
-Route::get('/user-id/{id}', function ($id) {
-    return 'User ID: ' . $id;
-})->where('id', '[0-9]+');
-
-use App\Models\User;
-
-Route::get('/user/{user}', function (User $user) {
-    return $user->name;
-});
-
 //Named Routes
 Route::get('/profile', function () {
     return 'Halaman Profile';
@@ -46,3 +24,9 @@ Route::prefix('admin')->group(function () {
     });
 
 });
+// Modul Praktikum
+use App\Http\Controllers\DashboardController;
+
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth'])
+    ->name('dashboard');
