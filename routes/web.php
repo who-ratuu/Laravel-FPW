@@ -33,5 +33,5 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
 
 // Tugas Praktikum 2 No 2
 Route::get('/about', function () {
-    return 'Halaman About';
+    return 'Barokah Mart menjual berbagai macam produk kebutuhan sehari-hari hingga makanan segar!';
 });
