@@ -31,7 +31,20 @@ Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
 
-// Tugas Praktikum 2 No 2
+// Tugas Praktikum 2 
+// No 2
 Route::get('/about', function () {
-    return 'Barokah Mart menjual berbagai macam produk kebutuhan sehari-hari hingga makanan segar!';
+    return 'Barokah Mart menjual berbagai macam produk 
+    kebutuhan sehari-hari hingga makanan segar!';
 });
+ 
+// No 3
+Route::get('/products', function () {
+    return 'Daftar Produk';
+});
+
+Route::post('/products', function () {
+    return 'Data produk berhasil disimpan';
+});
+
+
