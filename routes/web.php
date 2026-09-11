@@ -77,4 +77,14 @@ Route::middleware(['auth', 'role:admin,kasir'])->group(function () {
     Route::post('/pos', [PosController::class, 'store'])->name('pos.store');
 });
 
+// Tugas Praktikum 4
+// No 1
+Route::middleware(['auth', 'role:admin'])->group(function () {
+    Route::resource('categories', CategoryController::class);
+    Route::resource('products', ProductController::class);
+    Route::get('/reports/sales', [ReportController::class, 'sales'])->name('report.sales');
 
+    Route::get('/users', function () {
+        return 'Halaman Kelola Akun Kasir';
+    });
+});
