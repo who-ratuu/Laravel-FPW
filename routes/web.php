@@ -88,3 +88,17 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
         return 'Halaman Kelola Akun Kasir';
     });
 });
+
+//Pertemuan 5
+//Praktikum Presentasi
+Route::get('/index', function (){
+
+    $posts =[
+        (object)['title' =>'Belajar', 'content' => true],
+        (object)['title' =>'Belajar lagi', 'content' => true], 
+        (object)['title' =>'Belajar lagi lagi', 'content' => true],
+    ];
+
+    return view('posts.index', compact ('posts'));
+
+});
