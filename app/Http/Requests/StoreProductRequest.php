@@ -12,8 +12,8 @@ class StoreProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return auth()->user()->role === 'admin';
-
+    return auth()->check()
+        && auth()->user()->role === 'admin';
     }
 
     /**
@@ -28,7 +28,7 @@ class StoreProductRequest extends FormRequest
             'code' => 'required|string|max:20|unique:products,code',
             'name' => 'required|string|max:150',
             'unit' => 'required|string|max:20',
-            'price' => 'required|integer|min:0',
+            'price' => 'required|integer|min:1',
             'stock' => 'required|integer|min:0',
         ];
     }
