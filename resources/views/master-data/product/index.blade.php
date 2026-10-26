@@ -56,8 +56,29 @@
                                     @endif
                                 </td>
 
+<<<<<<< HEAD
                                 <td class="px-4 py-2 text-sm text-center space-x-2">
                                     <a href="{{ route('products.edit', $product) }}" class="text-indigo-600">Ubah</a>
+=======
+                                <td class="px-4 py-2 text-sm text-center whitespace-nowrap">
+                                    <a href="{{ route('products.edit', $product) }}"
+                                       class="text-indigo-600 hover:text-indigo-900">
+                                        Ubah
+                                    </a>
+
+                                    <form action="{{ route('products.destroy', $product) }}"
+                                          method="POST"
+                                          class="inline"
+                                          onsubmit="return confirm('Yakin ingin menghapus produk {{ $product->name }}?')">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit"
+                                                class="ml-2 text-red-600 hover:text-red-900">
+                                            Hapus
+                                        </button>
+                                    </form>
+>>>>>>> e6937df (Praktikum 9)
                                 </td>
                             </tr>
                         @empty
