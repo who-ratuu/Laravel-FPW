@@ -7,7 +7,7 @@
             </a>
         </div>
     </x-slot>
- 
+
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-card>
@@ -16,7 +16,7 @@
                         {{ session('success') }}
                     </div>
                 @endif
- 
+
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                         <tr>
@@ -28,6 +28,7 @@
                             <th class="px-4 py-2 text-center text-xs font-medium text-gray-500">Aksi</th>
                         </tr>
                     </thead>
+
                     <tbody class="divide-y divide-gray-100">
                         @forelse ($products as $product)
                             <tr class="@if ($product->stock == 0) bg-red-50 @elseif ($product->stock < 10) bg-yellow-50 @endif">
@@ -39,14 +40,32 @@
                                 </td>
                                 <td class="px-4 py-2 text-sm text-center font-semibold">
                                     {{ $product->stock }}
+
                                     @if ($product->stock == 0)
                                         <span class="text-red-600 text-xs block">Habis</span>
                                     @elseif ($product->stock < 10)
                                         <span class="text-yellow-600 text-xs block">Menipis</span>
                                     @endif
                                 </td>
-                                <td class="px-4 py-2 text-sm text-center space-x-2">
-                                    <a href="{{ route('products.edit', $product) }}" class="text-indigo-600">Ubah</a>
+
+                                <td class="px-4 py-2 text-sm text-center whitespace-nowrap">
+                                    <a href="{{ route('products.edit', $product) }}"
+                                       class="text-indigo-600 hover:text-indigo-900">
+                                        Ubah
+                                    </a>
+
+                                    <form action="{{ route('products.destroy', $product) }}"
+                                          method="POST"
+                                          class="inline"
+                                          onsubmit="return confirm('Yakin ingin menghapus produk {{ $product->name }}?')">
+                                        @csrf
+                                        @method('DELETE')
+
+                                        <button type="submit"
+                                                class="ml-2 text-red-600 hover:text-red-900">
+                                            Hapus
+                                        </button>
+                                    </form>
                                 </td>
                             </tr>
                         @empty
@@ -58,7 +77,7 @@
                         @endforelse
                     </tbody>
                 </table>
- 
+
                 <div class="mt-4">
                     {{ $products->links() }}
                 </div>
@@ -66,4 +85,3 @@
         </div>
     </div>
 </x-app-layout>
-
