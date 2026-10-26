@@ -85,7 +85,6 @@ class CategoryController extends Controller
                 );
         }
 
-        // Hapus kategori jika tidak memiliki produk
         $category->delete();
 
         return redirect()->route('categories.index')

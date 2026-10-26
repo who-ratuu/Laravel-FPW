@@ -16,7 +16,6 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-card>
 
-                {{-- Pesan error validasi --}}
                 @if ($errors->any())
                     <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">
                         <ul class="list-disc list-inside">
@@ -27,14 +26,12 @@
                     </div>
                 @endif
 
-                {{-- Form ubah kategori --}}
                 <form action="{{ route('categories.update', $category) }}"
                       method="POST">
 
                     @csrf
                     @method('PUT')
 
-                    {{-- Nama kategori --}}
                     <div class="mb-4">
                         <label for="name"
                                class="block text-sm font-medium text-gray-700 mb-1">
@@ -50,7 +47,6 @@
                                required>
                     </div>
 
-                    {{-- Deskripsi kategori --}}
                     <div class="mb-6">
                         <label for="description"
                                class="block text-sm font-medium text-gray-700 mb-1">
@@ -64,7 +60,6 @@
                                   placeholder="Masukkan deskripsi kategori">{{ old('description', $category->description) }}</textarea>
                     </div>
 
-                    {{-- Tombol aksi --}}
                     <div class="flex items-center gap-2">
                         <button type="submit"
                                 class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm">
