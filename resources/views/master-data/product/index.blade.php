@@ -2,7 +2,8 @@
     <x-slot name="header">
         <div class="flex justify-between items-center">
             <h2 class="font-semibold text-xl text-gray-800">Data Produk</h2>
-            <a href="{{ route('products.create') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-md text-sm">
+            <a href="{{ route('products.create') }}"
+               class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-md text-sm">
                 + Tambah Produk
             </a>
         </div>
@@ -32,8 +33,7 @@
 
                     <tbody class="divide-y divide-gray-100">
                         @forelse ($products as $product)
-                            <tr class="@if ($product->stock == 0) bg-red-50 
-                                @elseif ($product->stock < config('stock.low_stock_threshold')) bg-yellow-50 @endif">
+                            <tr class="@if ($product->stock == 0) bg-red-50 @elseif ($product->stock < config('stock.low_stock_threshold')) bg-yellow-50 @endif">
                                 <td class="px-4 py-2 text-sm">{{ $product->code }}</td>
                                 <td class="px-4 py-2 text-sm">{{ $product->name }}</td>
                                 <td class="px-4 py-2 text-sm">{{ $product->category->name }}</td>
@@ -56,29 +56,26 @@
                                     @endif
                                 </td>
 
-<<<<<<< HEAD
-                                <td class="px-4 py-2 text-sm text-center space-x-2">
-                                    <a href="{{ route('products.edit', $product) }}" class="text-indigo-600">Ubah</a>
-=======
-                                <td class="px-4 py-2 text-sm text-center whitespace-nowrap">
-                                    <a href="{{ route('products.edit', $product) }}"
-                                       class="text-indigo-600 hover:text-indigo-900">
-                                        Ubah
-                                    </a>
+                                {{-- Tombol aksi --}}
+                                <td class="px-4 py-2 text-sm text-center">
+                                    <div class="flex justify-center items-center gap-2">
+                                        <a href="{{ route('products.edit', $product) }}"
+                                           class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md">
+                                            Ubah
+                                        </a>
 
-                                    <form action="{{ route('products.destroy', $product) }}"
-                                          method="POST"
-                                          class="inline"
-                                          onsubmit="return confirm('Yakin ingin menghapus produk {{ $product->name }}?')">
-                                        @csrf
-                                        @method('DELETE')
+                                        <form action="{{ route('products.destroy', $product) }}"
+                                              method="POST"
+                                              onsubmit="return confirm('Yakin ingin menghapus produk ini?')">
+                                            @csrf
+                                            @method('DELETE')
 
-                                        <button type="submit"
-                                                class="ml-2 text-red-600 hover:text-red-900">
-                                            Hapus
-                                        </button>
-                                    </form>
->>>>>>> e6937df (Praktikum 9)
+                                            <button type="submit"
+                                                    class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @empty

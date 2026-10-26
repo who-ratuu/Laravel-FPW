@@ -12,27 +12,25 @@ class CategoryController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {  
-         $categories = Category::withCount('products')
-         ->latest()
-         ->paginate(10);
-         
-         return view('master-data.category.index', compact('categories'));
+    {
+        $categories = Category::withCount('products')
+            ->latest()
+            ->paginate(10);
+
+        return view('master-data.category.index', compact('categories'));
     }
-    
+
     /**
      * Show the form for creating a new resource.
      */
     public function create()
     {
         return view('master-data.category.create');
-
     }
 
     /**
      * Store a newly created resource in storage.
      */
-
     public function store(StoreCategoryRequest $request)
     {
         Category::create($request->validated());
@@ -54,7 +52,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        //
+        return view('master-data.category.edit', compact('category'));
     }
 
     /**
@@ -62,7 +60,15 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|string|max:100',
+            'description' => 'nullable|string',
+        ]);
+
+        $category->update($validated);
+
+        return redirect()->route('categories.index')
+            ->with('success', 'Kategori berhasil diperbarui.');
     }
 
     /**
@@ -70,6 +76,19 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        //
+        // Periksa apakah kategori masih memiliki produk
+        if ($category->products()->exists()) {
+            return redirect()->route('categories.index')
+                ->with(
+                    'error',
+                    'Kategori tidak dapat dihapus karena masih memiliki produk.'
+                );
+        }
+
+        // Hapus kategori jika tidak memiliki produk
+        $category->delete();
+
+        return redirect()->route('categories.index')
+            ->with('success', 'Kategori berhasil dihapus.');
     }
 }

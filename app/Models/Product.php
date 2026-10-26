@@ -4,10 +4,20 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\Attribute;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Product extends Model
 {
-    protected $fillable = ['category_id', 'code', 'name', 'unit', 'price', 'stock'];
+    use SoftDeletes;
+
+    protected $fillable = [
+        'category_id',
+        'code',
+        'name',
+        'unit',
+        'price',
+        'stock'
+    ];
 
     public function category()
     {
@@ -21,8 +31,8 @@ class Product extends Model
 
     protected function priceRupiah(): Attribute
     {
-    return Attribute::make(
-        get: fn () => 'Rp ' . number_format($this->price, 0, ',', '.'),
-    );
+        return Attribute::make(
+            get: fn () => 'Rp ' . number_format($this->price, 0, ',', '.'),
+        );
     }
 }
