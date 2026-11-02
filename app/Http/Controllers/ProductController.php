@@ -32,10 +32,8 @@ class ProductController extends Controller
 
         if ($request->filled('stock_status')) {
             if ($request->stock_status == 'habis') {
-   
                 $query->where('stock', 0);
             } elseif ($request->stock_status == 'menipis') {
-
                 $query->where('stock', '>', 0)
                     ->where(
                         'stock',
@@ -81,9 +79,19 @@ class ProductController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Product $product)
     {
-        //
+        $product->load(['transactionDetails.transaction']);
+
+        $totalTerjual = $product->transactionDetails->sum('qty');
+
+        $riwayat = $product->transactionDetails()
+            ->with('transaction')
+            ->latest()
+            ->take(10)
+            ->get();
+
+        return view('master-data.product.show', compact('product', 'totalTerjual', 'riwayat'));
     }
 
     /**
