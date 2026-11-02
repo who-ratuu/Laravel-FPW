@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
@@ -82,6 +81,9 @@ Route::middleware(['auth', 'role:admin,kasir'])->group(function () {
     Route::post('/pos', [PosController::class, 'store'])
         ->name('pos.store');
 
+    Route::get('/pos/{transaction}/struk', [PosController::class, 'struk'])
+        ->name('pos.struk');
+
     Route::get('/pos/history', function () {
         return 'Riwayat Transaksi Saya';
     })->name('pos.history');
@@ -98,6 +100,6 @@ Route::get('/index', function () {
     return view('posts.index', compact('posts'));
 });
 
-// Praktikum 7 - Route 
+// Praktikum 7 - Route
 Route::resource('categories', CategoryController::class);
 Route::resource('products', ProductController::class);
