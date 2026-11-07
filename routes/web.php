@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
@@ -6,6 +7,7 @@ use App\Http\Controllers\PosController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
 
+// Halaman Utama
 Route::get('/', function () {
     return view('welcome');
 });
@@ -26,7 +28,7 @@ Route::prefix('admin')->group(function () {
     });
 });
 
-// Modul Praktikum - Dashboard
+// Dashboard
 Route::get('/dashboard', [DashboardController::class, 'index'])
     ->middleware(['auth'])
     ->name('dashboard');
@@ -36,15 +38,6 @@ Route::get('/about', function () {
     return 'Haii, Selamat datang di Barokah Mart, kami menjual
     berbagai macam produk kebutuhan sehari-hari hingga menjual
     makanan segar!';
-});
-
-// Tugas Praktikum 2 - Produk
-Route::get('/products', function () {
-    return 'Daftar Produk';
-});
-
-Route::post('/products', function () {
-    return 'Data produk berhasil disimpan';
 });
 
 // Pertemuan 4 - Login Manual
@@ -62,12 +55,12 @@ Route::post('/logout', [LoginController::class, 'destroy'])
 
 // Akses Admin
 Route::middleware(['auth', 'role:admin'])->group(function () {
+
+    // Master Data Kategori dan Produk (Tugas 11)
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
 
-    Route::get('/reports/sales', [ReportController::class, 'sales'])
-        ->name('report.sales');
-
+    // Kelola Akun Kasir
     Route::get('/users', function () {
         return 'Halaman Kelola Akun Kasir';
     });
@@ -75,18 +68,23 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
 // Akses Admin dan Kasir
 Route::middleware(['auth', 'role:admin,kasir'])->group(function () {
+
+    // Transaksi Penjualan (Tugas 12)
     Route::get('/pos', [PosController::class, 'index'])
         ->name('pos.index');
 
     Route::post('/pos', [PosController::class, 'store'])
         ->name('pos.store');
 
-    Route::get('/pos/{transaction}/struk', [PosController::class, 'struk'])
-        ->name('pos.struk');
-
+    // Riwayat Transaksi
     Route::get('/pos/history', [PosController::class, 'history'])
         ->name('pos.history');
+
+    // Cetak dan Lihat Struk
+    Route::get('/pos/{transaction}/struk', [PosController::class, 'struk'])
+        ->name('pos.struk');
 });
+
 // Pertemuan 5 - Praktikum Presentasi
 Route::get('/index', function () {
     $posts = [
@@ -97,7 +95,3 @@ Route::get('/index', function () {
 
     return view('posts.index', compact('posts'));
 });
-
-// Praktikum 7 - Route
-Route::resource('categories', CategoryController::class);
-Route::resource('products', ProductController::class);

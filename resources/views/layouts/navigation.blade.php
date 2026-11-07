@@ -16,11 +16,6 @@
                     <a href="{{ route('products.index') }}"
                         class="{{ request()->routeIs('products.*') ? 'text-indigo-600' : 'text-gray-500' }}">
                         Produk
-                    </a>
-                    <a href="{{ route('report.sales') }}"
-                        class="{{ request()->routeIs('report.sales') ? 'text-indigo-600' : 'text-gray-500' }}">
-                        Laporan
-                    </a>
                 @endif
  
                 <a href="{{ route('pos.index') }}"
