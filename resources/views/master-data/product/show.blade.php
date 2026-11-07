@@ -71,6 +71,42 @@
                         @endforelse
                     </tbody>
                 </table>
+
+                <h4 class="font-medium mt-6 mb-2">
+                    Peringkat 5 Hari Penjualan Tertinggi
+                </h4>
+
+                <table class="min-w-full divide-y divide-gray-200 text-sm">
+                    <thead>
+                        <tr>
+                            <th class="px-3 py-2 text-left">Peringkat</th>
+                            <th class="px-3 py-2 text-left">Tanggal</th>
+                            <th class="px-3 py-2 text-right">Total Penjualan</th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-100">
+                        @forelse ($peringkatHari as $hari)
+                            <tr>
+                                <td class="px-3 py-2">
+                                    {{ $loop->iteration }}
+                                </td>
+                                <td class="px-3 py-2">
+                                    {{ \Carbon\Carbon::parse($hari->tanggal)->format('d M Y') }}
+                                </td>
+                                <td class="px-3 py-2 text-right">
+                                    Rp{{ number_format($hari->total_penjualan, 0, ',', '.') }}
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" class="px-3 py-4 text-center text-gray-500">
+                                    Belum ada data penjualan.
+                                </td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
             </x-card>
         </div>
     </div>

@@ -91,7 +91,23 @@ class ProductController extends Controller
             ->take(10)
             ->get();
 
-        return view('master-data.product.show', compact('product', 'totalTerjual', 'riwayat'));
+        $peringkatHari = $product->transactionDetails()
+            ->join(
+                'transactions',
+                'transaction_details.transaction_id',
+                '=',
+                'transactions.id'
+            )
+            ->selectRaw('DATE(transactions.created_at) as tanggal, SUM(transaction_details.subtotal) as total_penjualan')
+            ->groupByRaw('DATE(transactions.created_at)')
+            ->orderByDesc('total_penjualan')
+            ->take(5)
+            ->get();
+
+        return view(
+            'master-data.product.show',
+            compact('product', 'totalTerjual', 'riwayat', 'peringkatHari')
+        );
     }
 
     /**

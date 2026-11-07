@@ -16,21 +16,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <x-card>
 
-                {{-- Pesan sukses --}}
                 @if (session('success'))
                     <div class="mb-4 p-3 bg-green-100 text-green-700 rounded-md text-sm">
                         {{ session('success') }}
                     </div>
                 @endif
 
-                {{-- Pesan peringatan --}}
                 @if (session('error'))
                     <div class="mb-4 p-3 bg-red-100 text-red-700 rounded-md text-sm">
                         {{ session('error') }}
                     </div>
                 @endif
 
-                {{-- Tabel kategori --}}
                 <div class="overflow-x-auto">
                     <table class="min-w-full divide-y divide-gray-200">
                         <thead class="bg-gray-50">
@@ -38,19 +35,15 @@
                                 <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">
                                     No
                                 </th>
-
                                 <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">
                                     Nama Kategori
                                 </th>
-
                                 <th class="px-4 py-2 text-left text-xs font-medium text-gray-500">
                                     Deskripsi
                                 </th>
-
                                 <th class="px-4 py-2 text-center text-xs font-medium text-gray-500">
                                     Jumlah Produk
                                 </th>
-
                                 <th class="px-4 py-2 text-center text-xs font-medium text-gray-500">
                                     Aksi
                                 </th>
@@ -76,9 +69,14 @@
                                         {{ $category->products_count }}
                                     </td>
 
-                                    {{-- Tombol aksi --}}
                                     <td class="px-4 py-2 text-center text-sm">
                                         <div class="flex justify-center items-center gap-2">
+
+                                            <a href="{{ route('categories.show', $category) }}"
+                                               class="bg-indigo-600 hover:bg-indigo-700 text-white px-3 py-1 rounded-md">
+                                                Detail
+                                            </a>
+
                                             <a href="{{ route('categories.edit', $category) }}"
                                                class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded-md">
                                                 Ubah
@@ -95,6 +93,7 @@
                                                     Hapus
                                                 </button>
                                             </form>
+
                                         </div>
                                     </td>
                                 </tr>
@@ -110,7 +109,6 @@
                     </table>
                 </div>
 
-                {{-- Pagination --}}
                 <div class="mt-4">
                     {{ $categories->links() }}
                 </div>
