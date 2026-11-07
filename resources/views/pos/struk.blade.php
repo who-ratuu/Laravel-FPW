@@ -1,7 +1,33 @@
+<style>
+    @media print {
+        body * {
+            visibility: hidden;
+        }
+
+        #receipt,
+        #receipt * {
+            visibility: visible;
+        }
+
+        #receipt {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            box-shadow: none;
+            margin: 0;
+        }
+
+        .no-print {
+            display: none !important;
+        }
+    }
+</style>
+
 <x-app-layout>
     <div class="py-8">
         <div class="max-w-3xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white p-6 rounded-lg shadow">
+            <div id="receipt" class="bg-white p-6 rounded-lg shadow">
 
                 <div class="text-center mb-6">
                     <h1 class="text-2xl font-bold">BAROKAH MART</h1>
@@ -86,7 +112,12 @@
                     Terima kasih sudah berbelanja di Barokah Mart!
                 </p>
 
-                <div class="mt-6 text-center">
+                <div class="mt-6 text-center no-print">
+                    <button type="button" onclick="window.print()"
+                        class="inline-block bg-green-600 text-white px-4 py-2 rounded-lg mr-2">
+                        Cetak Struk
+                    </button>
+
                     <a href="{{ route('pos.index') }}"
                         class="inline-block bg-blue-600 text-white px-4 py-2 rounded-lg">
                         Transaksi Baru

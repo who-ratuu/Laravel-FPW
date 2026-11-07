@@ -84,11 +84,9 @@ Route::middleware(['auth', 'role:admin,kasir'])->group(function () {
     Route::get('/pos/{transaction}/struk', [PosController::class, 'struk'])
         ->name('pos.struk');
 
-    Route::get('/pos/history', function () {
-        return 'Riwayat Transaksi Saya';
-    })->name('pos.history');
+    Route::get('/pos/history', [PosController::class, 'history'])
+        ->name('pos.history');
 });
-
 // Pertemuan 5 - Praktikum Presentasi
 Route::get('/index', function () {
     $posts = [

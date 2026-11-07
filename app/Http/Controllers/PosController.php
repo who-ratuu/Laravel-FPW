@@ -72,4 +72,13 @@ class PosController extends Controller
 
         return view('pos.struk', compact('transaction'));
     }
+    
+    public function history()
+    {
+        $transactions = Transaction::where('user_id', auth()->id())
+            ->latest()
+            ->get();
+
+        return view('pos.history', compact('transactions'));
+    }
 }
