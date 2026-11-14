@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\PosController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\ReportController;
 
 // Halaman Utama
 Route::get('/', function () {
@@ -59,6 +60,13 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
     // Master Data Kategori dan Produk (Tugas 11)
     Route::resource('categories', CategoryController::class);
     Route::resource('products', ProductController::class);
+
+    // Laporan Penjualan (Praktikum 13)
+    Route::get('/reports/sales', [ReportController::class, 'sales'])
+        ->name('report.sales');
+
+    Route::get('/reports/sales/export', [ReportController::class, 'export'])
+        ->name('report.export');
 
     // Kelola Akun Kasir
     Route::get('/users', function () {
