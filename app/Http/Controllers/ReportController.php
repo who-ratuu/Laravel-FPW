@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Transaction;
+use App\Models\User;
 use App\Exports\SalesExport;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -20,20 +21,30 @@ class ReportController extends Controller
             ? Carbon::parse($request->end)->endOfDay()
             : now()->endOfDay();
 
-        $transactions = Transaction::with('user')
-            ->whereBetween('created_at', [$start, $end])
-            ->latest()
-            ->get();
+        $selectedCashier = $request->input('cashier');
+
+        $query = Transaction::with('user')
+            ->whereBetween('created_at', [$start, $end]);
+
+        if ($request->filled('cashier')) {
+            $query->where('user_id', $selectedCashier);
+        }
+
+        $transactions = $query->latest()->get();
 
         $totalPenjualan = $transactions->sum('total');
         $jumlahTransaksi = $transactions->count();
+
+        $cashiers = User::orderBy('name')->get();
 
         return view('reports.sales', compact(
             'transactions',
             'totalPenjualan',
             'jumlahTransaksi',
             'start',
-            'end'
+            'end',
+            'cashiers',
+            'selectedCashier'
         ));
     }
 
@@ -47,12 +58,14 @@ class ReportController extends Controller
             ? Carbon::parse($request->end)->endOfDay()
             : now()->endOfDay();
 
+        $cashier = $request->input('cashier');
+
         $filename = 'laporan-penjualan-' .
             $start->format('Ymd') . '-' .
             $end->format('Ymd') . '.xlsx';
 
         return Excel::download(
-            new SalesExport($start, $end),
+            new SalesExport($start, $end, $cashier),
             $filename
         );
     }

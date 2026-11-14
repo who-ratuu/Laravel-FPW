@@ -8,7 +8,7 @@
     <div class="py-6">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-            <!-- Filter Tanggal -->
+            <!-- Filter Tanggal dan Kasir -->
             <div class="bg-white p-6 rounded-lg shadow mb-6">
                 <form action="{{ route('report.sales') }}" method="GET"
                     class="flex flex-wrap items-end gap-4">
@@ -29,6 +29,24 @@
                         <input type="date" name="end" id="end"
                             value="{{ request('end', $end->format('Y-m-d')) }}"
                             class="border-gray-300 rounded-md shadow-sm">
+                    </div>
+
+                    <div>
+                        <label for="cashier" class="block text-sm font-medium">
+                            Pilih Kasir
+                        </label>
+
+                        <select name="cashier" id="cashier"
+                            class="border-gray-300 rounded-md shadow-sm">
+                            <option value="">Semua Kasir</option>
+
+                            @foreach ($cashiers as $cashier)
+                                <option value="{{ $cashier->id }}"
+                                    @selected($selectedCashier == $cashier->id)>
+                                    {{ $cashier->name }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
 
                     <button type="submit"

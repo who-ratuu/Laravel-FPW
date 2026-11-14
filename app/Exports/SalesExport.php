@@ -2,48 +2,27 @@
 
 namespace App\Exports;
 
-use App\Models\Transaction;
-use Illuminate\Support\Collection;
-use Maatwebsite\Excel\Concerns\FromCollection;
-use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithMapping;
+use Maatwebsite\Excel\Concerns\Export;
+use Maatwebsite\Excel\Concerns\WithMultipleSheets;
 
-class SalesExport implements FromCollection, WithHeadings, WithMapping
+class SalesExport implements Export, WithMultipleSheets
 {
     protected $start;
     protected $end;
+    protected $cashier;
 
-    public function __construct($start, $end)
+    public function __construct($start, $end, $cashier = null)
     {
         $this->start = $start;
         $this->end = $end;
+        $this->cashier = $cashier;
     }
 
-    public function collection(): Collection
-    {
-        return Transaction::with('user')
-            ->whereBetween('created_at', [$this->start, $this->end])
-            ->latest()
-            ->get();
-    }
-
-    public function headings(): array
+    public function sheets(): array
     {
         return [
-            'No. Invoice',
-            'Tanggal',
-            'Kasir',
-            'Total'
-        ];
-    }
-
-    public function map($transaction): array
-    {
-        return [
-            $transaction->invoice_number,
-            $transaction->created_at->format('d-m-Y H:i'),
-            $transaction->user->name ?? '-',
-            $transaction->total
+            new SalesDataSheet($this->start, $this->end, $this->cashier),
+            new ProductSalesSheet($this->start, $this->end, $this->cashier),
         ];
     }
 }
